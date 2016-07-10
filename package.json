@@ -1,0 +1,20 @@
+{
+  "name": "CollaborativeDrawinBoard",
+  "version": "0.0.0",
+  "description": "Lets draw in real-time.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "aditimishra"
+  ],
+  "author": "narutoadi",
+  "license": "MIT"
+}
