@@ -1,7 +1,7 @@
 {
   "name": "CollaborativeDrawinBoard",
   "version": "0.0.0",
-  "description": "Lets draw in real-time.",
+  "description": "Lets draw realtime",
   "main": "server.js",
   "dependencies": {
     "express": "^4.14.0",
@@ -12,9 +12,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [
-    "aditimishra"
-  ],
   "author": "narutoadi",
   "license": "MIT"
 }
