@@ -7,9 +7,19 @@
 	
 </head>
 <body>
+<div id="chat">
+	<ul id="messages"></ul>
+	<form action="">
+	<input id="m" autocomplete="off"/>
+	<button>Send</button>
+</form>
+</div>
+<div id="board">
 <canvas id="drawing"></canvas>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="socket.io/socket.io.js"></script>
-	<script src="client.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="client.js"></script>
 </body>
 </html>

@@ -18,6 +18,17 @@ var line_history = [];
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
 
+  socket.on('register',function(name){
+  io.emit('start',{'jsonmsg':''+name+' is now CONNECTED. Say Hello!'});
+  });
+  socket.on('chat message', function(data){
+    io.emit('chat message', {'name': data.name,'msg':data.msg});
+  });
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+    io.emit('finish',{'jsonmsg':'1 of the users DISCONNECTED!!'});
+  });
    // first send the history to the new client
    for (var i in line_history) {
       socket.emit('draw_line', { line: line_history[i] } );
@@ -34,4 +45,9 @@ io.on('connection', function (socket) {
   // 	line_history = [];
   // 	io.emit('clearit', true);
   // });
+  socket.on('redraw', function (){
+    for (var i in line_history) {
+      socket.emit('draw_line', { line: line_history[i] } );
+   }
+ });
 });
