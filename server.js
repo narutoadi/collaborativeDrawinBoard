@@ -6,7 +6,7 @@ var express = require('express'),
 // start webserver on port 8080
 var server =  http.createServer(app);
 var io = socketIo.listen(server);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 server.listen(port);
 // add directory with our static files
 app.use(express.static(__dirname + '/public'));
@@ -30,8 +30,8 @@ io.on('connection', function (socket) {
       // send line to all clients
       io.emit('draw_line', { line: data.line });
    });
-   socket.on('clearit', function(){
-   	line_history = [];
-   	io.emit('clearit', true);
-   });
+  // socket.on('clearit', function(){
+  // 	line_history = [];
+  // 	io.emit('clearit', true);
+  // });
 });

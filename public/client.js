@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
+   $(window).resize(function() {
+  location.reload();
+});
+
    var mouse = { 
       click: false,
       move: false,
@@ -11,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
    var width   = window.innerWidth;
    var height  = window.innerHeight;
    var socket  = io.connect();
-   var but = document.getElementById('clear');
+ //  var but = document.getElementById('clear');
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
@@ -22,27 +26,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
    canvas.onmousemove = function(e) {
       // normalize mouse position to range 0.0 - 1.0
+     
       mouse.pos.x = e.clientX / width;
       mouse.pos.y = e.clientY / height;
       mouse.move = true;
    };
 
-   but.onclick =  function(e){
-		socket.emit('clearit', true);
-	}
+  // but.onclick =  function(e){
+	//	socket.emit('clearit', true);
+//	}
    // draw line received from server
 	socket.on('draw_line', function (data) {
       var line = data.line;
+      
       context.beginPath();
       context.moveTo(line[0].x * width, line[0].y * height);
       context.lineTo(line[1].x * width, line[1].y * height);
       context.stroke();
    });
 
-	socket.on('clearit', function(){
-			context.clearRect(0,0,width, height);
-			console.log("client clearit");
-	});
+//	socket.on('clearit', function(){
+	//		context.clearRect(0,0,width, height);
+		//	console.log("client clearit");
+//	});
 
 	
    
