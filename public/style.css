@@ -19,7 +19,7 @@ body, html{
 #board{
 	width: 55%;
 	float: right;
-	border:2px solid red;
+	border:2px solid black;
 }
 #messages {
 	list-style-type: none;

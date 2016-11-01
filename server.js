@@ -17,7 +17,7 @@ var line_history = [];
 
 // event-handler for new incoming connections
 io.on('connection', function (socket) {
-
+  socket.emit('chat message', {'name': 'Server', 'msg': 'You Are Welcome !'});
   socket.on('register',function(name){
   io.emit('start',{'jsonmsg':''+name+' is now CONNECTED. Say Hello!'});
   });
