@@ -21,9 +21,20 @@ body, html{
 	height:100%;
 	float: left;
 }
+#toolbox.ul{
+	width: 100%;
+}
+#toolbox.ul.li{
+	width: 100%;
+	border:1px solid #ddd;
+}
+#clear{
+	width: 100%;
+	border:1px solid #ddd;
+}
 #board{
 	width: 55%;
-	float: left;
+	float: right;
 	height: 100%;
 	border:2px solid black;
 }

@@ -36,9 +36,7 @@ io.on('connection', function (socket) {
     io.emit('finish',{'jsonmsg':'1 of the users DISCONNECTED!!'});
   });
    // first send the history to the new client
-   for (var i in line_history) {
-      socket.emit('draw_line', { line: line_history[i], color: color_history[i] } );
-   }
+   socket.emit('redraw_line', { line: line_history, color: color_history } );
 
    // add handler for message type "draw_line".
    socket.on('draw_line', function (data) {
