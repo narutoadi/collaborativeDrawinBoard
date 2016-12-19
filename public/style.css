@@ -16,9 +16,15 @@ body, html{
 	border:2px solid black;
 	overflow-y: auto;
 }
+#toolbox{
+	width:4%;
+	height:100%;
+	float: left;
+}
 #board{
 	width: 55%;
-	float: right;
+	float: left;
+	height: 100%;
 	border:2px solid black;
 }
 #messages {
@@ -42,7 +48,7 @@ form{
 form input { 
 	border:0;
 	padding: 4px;
-	width:88%;
+	width:86%;
 	margin-right: .4%;
  }
 form button{

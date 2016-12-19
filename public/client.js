@@ -14,12 +14,13 @@ document.addEventListener("DOMContentLoaded", function() {
    var socket  = io.connect();
    var color   = getRandomColor();
    // Setting drawing style
-   
 
- //  var but = document.getElementById('clear');
+   var clearBut = document.getElementById('clear');
+   var chatDiv = document.getElementById('chat');
    // set canvas to full browser width/height
    canvas.width = width;
    canvas.height = height;
+   window.onfocus = function () { document.title = 'DrawingBoard'; }
 
    // register mouse event handlers
    canvas.onmousedown = function(e){ mouse.click = true; };
@@ -33,9 +34,10 @@ document.addEventListener("DOMContentLoaded", function() {
       mouse.move = true;
    };
 
-  // but.onclick =  function(e){
-	//	socket.emit('clearit', true);
-//	}
+   clearBut.onclick =  function(e){
+      console.log("clear is clicked");
+		socket.emit('clearit', true);
+	}
    // draw line received from server
 	socket.on('draw_line', function (data) {
       var line = data.line;
@@ -64,15 +66,21 @@ document.addEventListener("DOMContentLoaded", function() {
       $('#messages').append($('<li>')
          .text(data.jsonmsg)
          .css('color', data.color));
+      chatDiv.scrollTop = chatDiv.scrollHeight;
    });
    socket.on('finish', function(data){
       $('#messages').append($('<li>').text(data.jsonmsg));
+      chatDiv.scrollTop = chatDiv.scrollHeight;
    });
    socket.on('chat message', function(data){
       //$('#messages').css('color', data.color);
        $('#messages').append($('<li>')
          .text(data.name+" : "+data.msg)
          .css('color', data.color));
+       chatDiv.scrollTop = chatDiv.scrollHeight;
+       if(!document.hasFocus()){
+         document.title = ""+ data.name + " has messaged";  
+       }
    });
    while (name == '') {
                name = prompt("What's your name?","");
@@ -80,10 +88,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
 
-//	socket.on('clearit', function(){
-//			context.clearRect(0,0,width, height);
-//			console.log("client clearit");
-//	});
+	socket.on('clearit', function(){
+			context.clearRect(0,0,width, height);
+			console.log("client clearit");
+	});
    $(window).resize(function() {
 //  location.reload();
    width   = window.innerWidth;

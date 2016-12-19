@@ -25,7 +25,10 @@ io.on('connection', function (socket) {
   io.emit('start',{'jsonmsg':''+data.name+' is now CONNECTED. Say Hello!', 'color': data.color});
   });
   socket.on('chat message', function(data){
-    io.emit('chat message', {'name': data.name,'msg':data.msg, 'color':data.color });
+    if(!data.msg == ''){
+      io.emit('chat message', {'name': data.name,'msg':data.msg, 'color':data.color });
+    }
+    
   });
   console.log('a user connected');
   socket.on('disconnect', function(){
@@ -45,10 +48,11 @@ io.on('connection', function (socket) {
       // send line to all clients
       io.emit('draw_line', { line: data.line, color: data.color });
    });
-  // socket.on('clearit', function(){
-  // 	line_history = [];
-  // 	io.emit('clearit', true);
-  // });
+   socket.on('clearit', function(){
+    console.log("server clearit");
+   	line_history = [];
+   	io.emit('clearit', true);
+   });
   socket.on('redraw', function (){
     for (var i in line_history) {
       socket.emit('draw_line', { line: line_history[i], color: color_history[i] } );
