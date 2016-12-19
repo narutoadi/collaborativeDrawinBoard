@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
       pos_prev: false
    };
    // get canvas element and create context
+   var board = document.getElementById('board');
    var canvas  = document.getElementById('drawing');
    var context = canvas.getContext('2d');
    var width   = window.innerWidth;
@@ -17,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
    var clearBut = document.getElementById('clear');
    var chatDiv = document.getElementById('chat');
-   // set canvas to full browser width/height
-   canvas.width = width;
-   canvas.height = height;
+   // set canvas to board-div browser width/height
+   canvas.width = board.offsetWidth;
+   canvas.height = board.offsetHeight;
    window.onfocus = function () { document.title = 'DrawingBoard'; }
 
    // register mouse event handlers
@@ -51,6 +52,23 @@ document.addEventListener("DOMContentLoaded", function() {
       context.lineTo(line[1].x * width, line[1].y * height);
       context.stroke();
    });
+
+   socket.on('redraw_line', function (data) {
+      var line = data.line;
+      console.log(line);
+      var color = data.color;
+      console.log(color);
+      for(i=0; i<line.length; i+=1){
+         context.beginPath();
+         context.strokeStyle = color[i];
+         context.lineCap = 'round';
+         context.lineJoin = 'round';
+         context.lineWidth =  8;
+         context.moveTo(line[i][0].x * width , line[i][0].y * height);
+         context.lineTo(line[i][1].x * width, line[i][1].y * height);
+         context.stroke();
+      }
+   })
    var name = '';
    $('form').submit(function(){
       socket.emit('chat message',{'name': name,
@@ -97,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function() {
    width   = window.innerWidth;
    height  = window.innerHeight;
    chatWidth = width*0.45;
-   canvas.width = width;
-   canvas.height = height;
+   canvas.width = board.offsetWidth;
+   canvas.height = board.offsetHeight;
    context.clearRect(0,0,width, height);
 //   console.log("client clearit");
    socket.emit('redraw');
@@ -119,8 +137,18 @@ document.addEventListener("DOMContentLoaded", function() {
       // check if the user is drawing
       if (mouse.click && mouse.move && mouse.pos_prev) {
          // send line to to the server
-         socket.emit('draw_line', { line: [ mouse.pos, mouse.pos_prev ], color: [ color ] });
+         socket.emit('draw_line', { line: [ mouse.pos_prev, mouse.pos ], color: [ color ] });
          mouse.move = false;
+         //draw line on same client
+         context.beginPath();
+         context.strokeStyle = color;
+         context.lineCap = 'round';
+         context.lineJoin = 'round';
+         context.lineWidth =  8;
+         context.moveTo(mouse.pos_prev.x * width , mouse.pos_prev.y * height);
+         context.lineTo(mouse.pos.x * width, mouse.pos.y * height);
+         context.stroke();
+         
       }
       mouse.pos_prev = {x: mouse.pos.x, y: mouse.pos.y};
       setTimeout(mainLoop, 25);

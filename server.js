@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
       line_history.push(data.line);
       color_history.push(data.color);
       // send line to all clients
-      io.emit('draw_line', { line: data.line, color: data.color });
+      socket.broadcast.emit('draw_line', { line: data.line, color: data.color });
    });
    socket.on('clearit', function(){
     console.log("server clearit");
@@ -54,8 +54,8 @@ io.on('connection', function (socket) {
    	io.emit('clearit', true);
    });
   socket.on('redraw', function (){
-    for (var i in line_history) {
-      socket.emit('draw_line', { line: line_history[i], color: color_history[i] } );
-   }
+   // for (var i in line_history) {
+      socket.emit('redraw_line', { line: line_history, color: color_history } );
+   //}
  });
 });
