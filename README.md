@@ -22,3 +22,4 @@ Right click the drawing area and select the save as image option.
 * Add a verticle toolbar having eraser, different size of pen, color options.
 * Feature to draw over an image.
 * Create separate chat rooms with a random string at the end of URL.
+* Fix bugs regarding projection of drawing on different boards.
