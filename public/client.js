@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
    var chatWidth = width*0.45;
    var socket  = io.connect();
    var color   = getRandomColor();
+   var touchIdentifier;
    // Setting drawing style
 
    var clearBut = document.getElementById('clear');
@@ -24,15 +25,37 @@ document.addEventListener("DOMContentLoaded", function() {
    window.onfocus = function () { document.title = 'DrawingBoard'; }
 
    // register mouse event handlers
-   canvas.onmousedown = function(e){ mouse.click = true; };
+   canvas.onmousedown = function(e){ console.log("mouseClick"); mouse.click = true; };
    canvas.onmouseup = function(e){ mouse.click = false; };
 
    canvas.onmousemove = function(e) {
       // normalize mouse position to range 0.0 - 1.0
-     
+     console.log("mouseMove");
       mouse.pos.x = (e.clientX-chatWidth) / width;
       mouse.pos.y = e.clientY / height;
       mouse.move = true;
+      console.log(mouse);
+   };
+
+   canvas.ontouchstart = function(e){ 
+      e.preventDefault();
+      var touch = e.changedTouches[0];
+      touchIdentifier = touch.identifier;
+      console.log("touch start");  mouse.click = true; 
+      mouse.pos.x= (touch.pageX-chatWidth) / width;
+      mouse.pos.y= touch.pageY / height;
+      mouse.pos_prev = mouse.pos;
+   };
+   canvas.ontouchend = function(e){ console.log("touch end"); mouse.click = false; };
+   canvas.ontouchmove = function(e) {
+      // normalize mouse position to range 0.0 - 1.0
+     // mouse.click = true;
+      var movTouch = e.changedTouches[0];
+      console.log("concernedTouch = ",movTouch);
+      mouse.pos.x = (movTouch.pageX-chatWidth) / width;
+      mouse.pos.y = movTouch.pageY / height;
+      mouse.move = true;
+      console.log(mouse);
    };
 
    clearBut.onclick =  function(e){
